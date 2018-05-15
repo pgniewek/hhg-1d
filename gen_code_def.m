@@ -46,7 +46,10 @@ expSubstRev = {};
 
 (* - - - - - getFortranCode[] - - - - - *)
 ClearAll[getFortranCode];
-getFortranCode[ arg_,  prefix_:"" ] := Module[{expr,  plist,  elist, code, i,  vname,  val},  
+getFortranCode[ arg_,  prefix_:"" ] := Module[{expr,  plist,  elist, code, i,  vname,  val},
+                                              (*   (* DEBUG *) ppp = arg;
+                                               (* DEBUG *) Save["gfC_arg", ppp]; *)
+                                              
 	expr = Expand[arg] /. Exp[aaa_]:>exp[ Simplify[aaa] ];
 	expr = Collect[sppId expr /. a1 -> ap  -  a2,  exp[_], Simplify];
 	expr = Simplify[expr/. powSubst];
@@ -99,12 +102,13 @@ expressions = Flatten[ expressions ];
 (* lift the wrapper *)
 (* expressions = expressions /. integrateZw[ arg_ ] :> integrateZ[ arg ]; *)
 
-(* DEBUG *)
-Save["expressions.m", expressions ];
-
 expressions = Expand[ expressions ] /. Exp[ arg_ ] :> Exp[ Simplify[arg] ];
 expressions = expressions /. Abs[ arg_ ] :> Simplify[ Abs[ Factor[arg] ] , k1>0&&k2>0 ];
-expressions = Collect[ sppId expressions /. a1->ap  -  a2 , Exp[_], Simplify];
+expressions = Collect[ sppId expressions /. a1->ap  -  a2 , Exp[_],
+                       Simplify[#, k1>0&&k2>0]& ];
+
+(* DEBUG *)
+(* Save["expressions.m", expressions ]; *)
 
 powList = instances[expressions, Power[a_,  b_]/;FreeQ[b, Power]&&FreeQ[a, Power] ];
 powSubst = mkSubstList[ powList , p ];
@@ -154,7 +158,13 @@ Table[
     key = getKey[{n1, i1, j1}, {n2, i2, j2}];
     code = "  case ("<>ToString[key]<>") \n";
     val = integrate[integrand];
-    val = val /. Abs[k1^2-k2^2] -> (k1+k2) Abs[k1-k2];
+
+    val = val /. Abs[ arg_ ] :> Simplify[ Abs[ Factor[arg] ] , k1>0&&k2>0 ];
+    val = Collect[ val , Exp[_], Simplify[#, k1>0&&k2>0]& ];
+
+    (* DEBUG *) ppp = code[key] -> val;
+    (* DEBUG *) Save["code_dump.m", ppp];
+    
     (* val = val /. integrateZw[ arg_ ] :> integrateZ[ arg ]; *)
     If[Not[SameQ[val, 0]],  
       code = code<>"    ap = a1 + a2 \n";
