@@ -44,6 +44,14 @@ expSubstRev = {};
 
 (* # # # # # # # # # # # # # # # # # # # # # # # # # *)
 
+(* toSFF = toStringFortranForm *)
+toSFF[ arg_ ] := StringReplace[
+    ToString[ FortranForm[   arg   ],
+        PageWidth->70, 
+        FormatType -> InputForm ],
+    {"\\\n" -> "&\n       & ",
+     "\n "  -> "&\n       & "} ];
+
 (* - - - - - getFortranCode[] - - - - - *)
 ClearAll[getFortranCode];
 getFortranCode[ arg_,  prefix_:"" ] := Module[{expr,  plist,  elist, code, i,  vname,  val},
@@ -79,7 +87,9 @@ getFortranCode[ arg_,  prefix_:"" ] := Module[{expr,  plist,  elist, code, i,  v
 			e  =  ToExpression["e"<>ToString[#]]&
 			},  
 		expr ];
-	code = code<>prefix<>"ans = "<>ToString[FortranForm[ val ]]<>"\n";
+        code = code<>prefix<>"ans = ";
+        code = code<>toSFF[ val ];
+        code = code<>"\n";
 	Return[code];
 ];
 (* END - - - - - getFortranCode[] - - - - - END *)
@@ -162,8 +172,8 @@ Table[
     val = val /. Abs[ arg_ ] :> Simplify[ Abs[ Factor[arg] ] , k1>0&&k2>0 ];
     val = Collect[ val , Exp[_], Simplify[#, k1>0&&k2>0]& ];
 
-    (* DEBUG *) ppp = code[key] -> val;
-    (* DEBUG *) Save["code_dump.m", ppp];
+    (* (* DEBUG *) ppp = codeDump[key] -> val; *)
+    (* (* DEBUG *) Save["code_dump.m", ppp]; *)
     
     (* val = val /. integrateZw[ arg_ ] :> integrateZ[ arg ]; *)
     If[Not[SameQ[val, 0]],  
