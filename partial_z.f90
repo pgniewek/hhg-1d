@@ -12,7 +12,7 @@ real(quad) :: ans
 ! - - - - - - - - - - - - - - - - - - 
 integer :: key
 real(quad) :: ap, spp 
-real(quad) :: p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12
+real(quad) :: p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13
 real(quad) :: e1,e2,e3,e4,e5,e6,e7,e8,e9,e10,e11,e12
 ! - - - - - - - - - - - - - - - - - - 
  
@@ -68,10 +68,10 @@ select case (key)
     spp = sqrt(q_pi/ap) 
     p1 = 1/ap
     p7 = k1**2
-    p11 = ap**2
-    p12 = ap**(-3)
+    p11 = ap**(-3)
+    p12 = ap**2
     e7 = exp(-(p1*p7)/4.)
-    ans = (e7*k1*p12*(2*p11 + a2*(-6*ap + p7))*spp)/4.
+    ans = (e7*k1*p11*(2*p12 + a2*(-6*ap + p7))*spp)/4.
   case (12) 
     ap = a1 + a2 
     spp = sqrt(q_pi/ap) 
@@ -89,10 +89,10 @@ select case (key)
     spp = sqrt(q_pi/ap) 
     p1 = 1/ap
     p7 = k1**2
-    p11 = ap**2
-    p12 = ap**(-3)
+    p11 = ap**(-3)
+    p12 = ap**2
     e8 = exp(-(p1*p7))
-    ans = (e8*k1*p12*(-3*a2*ap + p11 + 2*a2*p7)*spp)/2.
+    ans = (e8*k1*p11*(-3*a2*ap + p12 + 2*a2*p7)*spp)/2.
   case (16) 
     ap = a1 + a2 
     spp = sqrt(q_pi/ap) 
@@ -144,9 +144,9 @@ select case (key)
     spp = sqrt(q_pi/ap) 
     p1 = 1/ap
     p2 = k2**2
-    p12 = ap**(-3)
+    p11 = ap**(-3)
     e1 = exp(-(p1*p2)/4.)
-    ans = (e1*k2*p12*(ap*(4*ap - p2) + a2*(-6*ap + p2))*spp)/4.
+    ans = (e1*k2*p11*(ap*(4*ap - p2) + a2*(-6*ap + p2))*spp)/4.
   case (26) 
     ap = a1 + a2 
     spp = sqrt(q_pi/ap) 
@@ -167,23 +167,20 @@ select case (key)
     p1 = 1/ap
     p3 = (k1 - k2)**2
     p4 = (k1 + k2)**2
-    p12 = ap**(-3)
+    p11 = ap**(-3)
     e3 = exp(-(p1*p3)/4.)
     e4 = exp(-(p1*p4)/4.)
-    ans = (p12*(-(e3*(a2*(k1 - k2)*(-6*ap + p3) + ap*(2*ap*(k1 - 2*k2) + k2*p3))) + e4*(a2*(k1 + k2)*(-6*ap + p4) + ap*(2*ap*(k1 + 2*k2) - k2*p4)))*spp)/8.
+    ans = (p11*(-(e3*(a2*(k1 - k2)*(-6*ap + p3) + ap*(2*ap*(k1 - 2*k2) + k2*p3))) + e4*(a2*(k1 + k2)*(-6*ap + p4) + ap*(2*ap*(k1 + 2*k2) - k2*p4)))*spp)/8.
   case (30) 
     ap = a1 + a2 
     spp = sqrt(q_pi/ap) 
-    p2 = k2**2
-    p7 = k1**2
-    p10 = ap**(-2)
     p1 = 1/ap
     p8 = (-2*k1 + k2)**2
     p9 = (2*k1 + k2)**2
-    p11 = ap**2
+    p10 = ap**(-2)
     e9 = exp(-(p1*p8)/4.)
     e10 = exp(-(p1*p9)/4.)
-    ans = (p10*spp*(ap*k2*(-(e9*(p2 - 4*p7)) + e10*p9)*Abs(2*k1 - k2) + (e9*(2*p11 + a2*(-2*ap + p8)) + e10*(2*a2*ap - 2*p11 - a2*p9))*Abs(p2 - 4*p7)))/(8.*Abs(p2 - 4*p7))
+    ans = (p10*(e9*(ap*(2*ap + (2*k1 - k2)*k2) + a2*(-2*ap + p8)) + e10*(ap*(-2*ap + k2*(2*k1 + k2)) + a2*(2*ap - p9)))*spp)/8.
   case (31) 
     ans = 0
   case (32) 
@@ -248,10 +245,10 @@ select case (key)
     p1 = 1/ap
     p3 = (k1 - k2)**2
     p4 = (k1 + k2)**2
-    p12 = ap**(-3)
+    p11 = ap**(-3)
     e3 = exp(-(p1*p3)/4.)
     e4 = exp(-(p1*p4)/4.)
-    ans = (p12*(e3*(a2*(k1 - k2)*(-6*ap + p3) + ap*(2*ap*(k1 - 2*k2) + k2*p3)) + e4*(a2*(k1 + k2)*(-6*ap + p4) + ap*(2*ap*(k1 + 2*k2) - k2*p4)))*spp)/8.
+    ans = (p11*(e3*(a2*(k1 - k2)*(-6*ap + p3) + ap*(2*ap*(k1 - 2*k2) + k2*p3)) + e4*(a2*(k1 + k2)*(-6*ap + p4) + ap*(2*ap*(k1 + 2*k2) - k2*p4)))*spp)/8.
   case (44) 
     ap = a1 + a2 
     spp = sqrt(q_pi/ap) 
@@ -269,16 +266,13 @@ select case (key)
   case (47) 
     ap = a1 + a2 
     spp = sqrt(q_pi/ap) 
-    p2 = k2**2
-    p7 = k1**2
     p1 = 1/ap
-    p9 = (2*k1 + k2)**2
     p8 = (-2*k1 + k2)**2
-    p11 = ap**2
-    p12 = ap**(-3)
-    e10 = exp(-(p1*p9)/4.)
+    p9 = (2*k1 + k2)**2
+    p11 = ap**(-3)
     e9 = exp(-(p1*p8)/4.)
-    ans = (p12*spp*((-2*e9*p11*(p2 - 4*p7) + a2*e9*(p2 - 4*p7)*(6*ap - p8) + 2*ap**2*e10*p9)*Abs(2*k1 - k2) + a2*e10*p9*(-6*ap + p9)*Abs(-2*k1 + k2) + ap*k2*(2*ap*e10 - 2*ap*e9 + e9*p8 - e10*p9)*Abs(p2 - 4*p7)))/(16.*Abs(p2 - 4*p7))
+    e10 = exp(-(p1*p9)/4.)
+    ans = (p11*(e9*(a2*(2*k1 - k2)*(-6*ap + p8) + ap*(4*ap*(k1 - k2) + k2*p8)) + e10*(a2*(2*k1 + k2)*(-6*ap + p9) + ap*(4*ap*(k1 + k2) - k2*p9)))*spp)/16.
   case (48) 
     ap = a1 + a2 
     spp = sqrt(q_pi/ap) 
@@ -330,9 +324,9 @@ select case (key)
     spp = sqrt(q_pi/ap) 
     p1 = 1/ap
     p2 = k2**2
-    p12 = ap**(-3)
+    p11 = ap**(-3)
     e2 = exp(-(p1*p2))
-    ans = (e2*k2*p12*(2*ap*(ap - p2) + a2*(-3*ap + 2*p2))*spp)/2.
+    ans = (e2*k2*p11*(2*ap*(ap - p2) + a2*(-3*ap + 2*p2))*spp)/2.
   case (58) 
     ap = a1 + a2 
     spp = sqrt(q_pi/ap) 
@@ -353,10 +347,10 @@ select case (key)
     p1 = 1/ap
     p5 = (k1 - 2*k2)**2
     p6 = (k1 + 2*k2)**2
-    p12 = ap**(-3)
+    p11 = ap**(-3)
     e5 = exp(-(p1*p5)/4.)
     e6 = exp(-(p1*p6)/4.)
-    ans = (p12*(e5*(a2*(k1 - 2*k2)*(6*ap - p5) - 2*ap*(ap*(k1 - 4*k2) + k2*p5)) + e6*(a2*(k1 + 2*k2)*(-6*ap + p6) + 2*ap*(ap*(k1 + 4*k2) - k2*p6)))*spp)/16.
+    ans = (p11*(e5*(a2*(k1 - 2*k2)*(6*ap - p5) - 2*ap*(ap*(k1 - 4*k2) + k2*p5)) + e6*(a2*(k1 + 2*k2)*(-6*ap + p6) + 2*ap*(ap*(k1 + 4*k2) - k2*p6)))*spp)/16.
   case (62) 
     ap = a1 + a2 
     spp = sqrt(q_pi/ap) 
