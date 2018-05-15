@@ -272,7 +272,9 @@ select case (key)
     p7 = k1**2
     p11 = ap**(-3)
     e13 = exp(-(p1*(p2 + 4*p7))/4.)
-    ans = (e13*p11*spp*(2*k1*(6*ap - 3*p2 - 4*p7)*Cosh(k1*k2*p1) + k2*(-6*ap + p2 + 12*p7)*Sinh(k1*k2*p1)))/16.
+    ans = (e13*p11*spp*(2*k1*(6*ap - 3*p2 - 4*p7)*Cosh(k1*k2*p1) + &
+       &      k2*(-6*ap + p2 + 12*p7)*Sinh(k1*k2*p1)))/16.
+
   case (48) 
     ap = a1 + a2 
     spp = sqrt(q_pi/ap) 
@@ -351,7 +353,9 @@ select case (key)
     p11 = ap**(-3)
     e5 = exp(-(p1*p5)/4.)
     e6 = exp(-(p1*p6)/4.)
-    ans = (p11*(e5*(k1 - 2*k2)*(-6*ap + p5) + e6*(k1 + 2*k2)*(6*ap - p6))*spp)/32.
+    ans = (p11*(e5*(k1 - 2*k2)*(-6*ap + p5) + e6*(k1 + 2*k2)*(6*ap - p6))*spp)/&
+       &  32.
+
   case (62) 
     ap = a1 + a2 
     spp = sqrt(q_pi/ap) 
