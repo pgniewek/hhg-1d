@@ -103,7 +103,7 @@ expressions = Flatten[ expressions ];
 Save["expressions.m", expressions ];
 
 expressions = Expand[ expressions ] /. Exp[ arg_ ] :> Exp[ Simplify[arg] ];
-expressions = expressions /. Abs[k1^2-k2^2] -> (k1+k2) Abs[k1-k2];
+expressions = expressions /. Abs[ arg_ ] :> Simplify[ Abs[ Factor[arg] ] , k1>0&&k2>0 ];
 expressions = Collect[ sppId expressions /. a1->ap  -  a2 , Exp[_], Simplify];
 
 powList = instances[expressions, Power[a_,  b_]/;FreeQ[b, Power]&&FreeQ[a, Power] ];
